@@ -13,4 +13,20 @@ soon.
 1. Leverage Python virtual environment (virtualenv)
 2. Improve confidence in working with Web Applications
 
+## Assumptions
+
+- We will use the latest version of Python and Django for this tutorial. 
+This is despite the fact that the book references old versions of both.
+
+## Live Journal
+
+### Chapter 1.
+
+I have read the 1st [chapter](http://www.tangowithdjango.com/book17/chapters/overview.html "Overview" ) in full.
+
+I have installed the latest version of Python for Windows and I can find in the the path.
+
+
+
+
    Lionel Saliou, Ph.D
