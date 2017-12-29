@@ -26,7 +26,17 @@ I have read the 1st [chapter](http://www.tangowithdjango.com/book17/chapters/ove
 
 I have installed the latest version of Python for Windows and I can find in the the path.
 
+Using `pip`, I installed the `virtualenv` package.
 
+__Remember__! To create an environment named *venv* use the command:
+
+``virtualenv venv``
+
+This will create a `venv` directory within the current directory.
+
+To activate the enviroment, use the command ``venv\Scripts\activate``
+
+This will change the command line prompt.
 
 
    Lionel Saliou, Ph.D
