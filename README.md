@@ -11,5 +11,6 @@ soon.
 ## Aims
 
 1. Leverage Python virtual environment (virtualenv)
+2. Improve confidence in working with Web Applications
 
    Lionel Saliou, Ph.D
