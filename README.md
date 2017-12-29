@@ -40,5 +40,13 @@ This will change the command line prompt.
 
 __Installation Error__: I downloaded the first package offered from the official Website. Sadly, it is the 32-bit installer. I give up for now, but next time, I will make sure to use the 64-bit version. 
 
+DJANGO installed within the virutal enviroment. Here is an extract from ``pip freeze``:
+
+``
+Django==2.0
+pytz==2017.3
+``
+
+
 
    Lionel Saliou, Ph.D
