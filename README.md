@@ -38,5 +38,7 @@ To activate the enviroment, use the command ``venv\Scripts\activate``
 
 This will change the command line prompt.
 
+__Installation Error__: I downloaded the first package offered from the official Website. Sadly, it is the 32-bit installer. I give up for now, but next time, I will make sure to use the 64-bit version. 
+
 
    Lionel Saliou, Ph.D
