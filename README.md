@@ -20,9 +20,9 @@ This is despite the fact that the book references old versions of both.
 
 ## Live Journal
 
-### Chapter 1.
+### Chapter 2
 
-I have read the 1st [chapter](http://www.tangowithdjango.com/book17/chapters/overview.html "Overview" ) in full.
+I have read the 2nd [chapter](http://www.tangowithdjango.com/book17/chapters/overview.html "Overview" ) in full.
 
 I have installed the latest version of Python for Windows and I can find in the the path.
 
@@ -47,6 +47,25 @@ Django==2.0
 pytz==2017.3
 ``
 
+### Chapter 3 ###
 
+### Using VirtualEnv Wrapper for Windows ###
+
+This is certainly the highlight of this chapter. 
+I was too eager to use the virutalenv command like I have seen in the Pluralsight courses. 
+The wrapper is much more powerful. 
+Especially since the various packages are now downloaded within the subdirectory of the local repositories but rather outside in the user current profile. 
+That means that I have been able to remove the ``venv`` folder from the local directory.
+Likewise, I can now call the command ``workon rango`` and it should set me
+up directly into the correct GIT repo. 
+Because I already had installed various packages I add to redo that as follows:
+
+``
+pip install -r requirements.txt
+``
+
+Python apparently installed everything from the cache this time around.
+
+Accordingly, I have decided to reset the `gitignore` file.
 
    Lionel Saliou, Ph.D
