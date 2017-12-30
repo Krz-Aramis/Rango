@@ -9,6 +9,9 @@ urlpatterns = [
     re_path(r'^about', views.about, name='about'),
 ]
 
+# TODO: remove this BEFORE deployment. It is not efficient or recommended.
 if not settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, 
         document_root=settings.STATIC_ROOT)
+else:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
