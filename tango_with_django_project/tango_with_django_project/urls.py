@@ -23,7 +23,7 @@ from rango import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('rango/', include('rango.urls')),
+    path('', include('rango.urls')),
 ]
 
 # TODO: remove this BEFORE deployment. It is not efficient or recommended.
