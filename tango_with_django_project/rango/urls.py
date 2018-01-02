@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    re_path(r'category/(?P<category_name_slug>[\w\-]+)/$', views.category, name='category'),
     re_path(r'about', views.about, name='about'),
 ]
