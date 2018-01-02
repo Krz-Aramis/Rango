@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 class Category(models.Model):
@@ -28,3 +29,17 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+class UserProfile(models.Model):
+    # Required:
+    # Links UserProfile to a User model instance
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    # Our additional attributes
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    # TODO: provide a default image if left blank
+    # example: https://stackoverflow.com/questions/1276887/default-image-for-imagefield-in-djangos-orm#1276907
+
+    def __str__(self):
+        return self.user.username
