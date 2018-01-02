@@ -1,0 +1,93 @@
+/* Taken from drag_upload.html */
+
+#holder { 
+    border: 10px dashed #ccc;
+    width: 300px; 
+    min-height: 300px; 
+    margin: 20px auto;
+}
+
+#holder.hover { 
+    border: 10px dashed #0c0; 
+}
+
+#holder img { 
+    display: block; 
+    margin: 10px auto; 
+}
+
+#holder p { 
+    margin: 10px; 
+    font-size: 14px; 
+}
+
+progress { 
+    width: 100%; 
+}
+
+progress:after { 
+    content: '%'; 
+}
+
+.fail { 
+    background: #c00; 
+    padding: 2px; 
+    color: #fff;
+}
+
+.hidden { 
+    display: none !important;
+}
+
+#wrapper {
+    width: 960px; /* this will have to be driven by the view port size */
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+
+/* Class used by the PHP script to show the images that were successfully uploaded. */
+.img_out {
+    border:none;
+    width: 26.42%; /* 250 / 960 */
+    box-shadow: 0 0 5px 5px #888;
+}
+
+.img_preview {
+    border:none;
+    width: 83%; /* 250/300 -- size of container */
+    box-shadow: -5px -5px 5px 5px #888;
+}
+
+p.error {
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* overall page footer: the list is shown as a "table" */
+
+footer {
+    display: table;
+    width: 97%;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    border: 1px dashed #0c0; 
+}
+
+footer ul {
+    display: table-row;
+}
+
+footer ul li {
+    display: table-cell;
+    text-align: center;
+}
+
+footer ul li:first-child {
+    text-align: left;
+}
+
+footer ul li:last-child {
+    text-align: right;
+}

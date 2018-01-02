@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="{% static 'rango/css/style.css' %}" rel="stylesheet" media="screen">
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <section>
+            {% block content %}
+            {% endblock %}
+            <footer>
+                <ul>
+                    <li><a href="/rango">Index</a></li>
+                    {% block myfooter %}
+                    {% endblock %}
+                    <li><a href="/rango/about/">About</a></li>
+                </ul>
+            </footer>
+        </section>
+    </body>
+</html>

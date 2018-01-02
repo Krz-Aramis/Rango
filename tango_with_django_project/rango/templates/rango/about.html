@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-<html>
-
-    <head>
-        <title>Rango {{ message }}</title>
-    </head>
-
-    <body>
-        <h1>Rango says...</h1>
-        hey <strong>{{ message }}</strong>
-        <br />
-        <a href="/rango">Index</a><br />
-        <img src="/media/icon_mrgreen.gif" alt="Mr Green" /> 
-    </body>
-
-</html>
+{% block content %}
+    <h1>Rango says...</h1>
+    hey <strong>{{ message }}</strong>
+    <br />
+    <img src="/media/icon_mrgreen.gif" alt="Mr Green" /> 
+{% endblock %}
