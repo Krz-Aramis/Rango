@@ -1,6 +1,7 @@
+import re
 from django.shortcuts import render
 from rango.models import Category, Page
-from rango.forms import CategoryForm
+from rango.forms import CategoryForm, PageForm
 
 def index(request):
     # Our requirements is to show the top 5 categories.
@@ -24,7 +25,8 @@ def about(request):
 
 def category(request, category_name_slug):
     context_dict = {}
-    
+    context_dict['category_name'] = re.sub(r'[-]+', ' ', category_name_slug)
+
     try:
         # We should be able to find the category from its slug.
         # If not a DoesNotExist exception is raised. 
@@ -46,6 +48,7 @@ def category(request, category_name_slug):
         # Don't do anything - the template displays the "no category" message for us.
         pass
     
+    context_dict['category_name_slug'] = category_name_slug
     return render(request, 'rango/category.html', context_dict)
 
 def add_category(request):
@@ -74,3 +77,33 @@ def add_category(request):
 
     context_dict['form'] = form
     return render(request,'rango/add_category.html', context_dict)
+
+def add_page(request, category_name_slug):
+
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
+    
+    context_dict = {}
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat 
+                page.views = 0
+                page.save()
+                # Probably better to use a redirect here
+                return category(request, category_name_slug)
+        else:
+            context_dict['validation_errors'] = form.errors
+    else:
+        # Allow the user to add a page to this category
+        form = PageForm()
+
+    context_dict['form'] = form
+    context_dict['category'] = cat
+
+    return render(request, 'rango/add_page.html', context_dict)

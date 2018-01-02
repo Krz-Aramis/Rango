@@ -1,5 +1,7 @@
 """Forms related to the Rango application"""
+import re
 from django import forms
+from django.template.defaultfilters import slugify
 from rango.models import Page, Category
 
 class CategoryForm(forms.ModelForm):
@@ -13,6 +15,18 @@ class CategoryForm(forms.ModelForm):
                                initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(),
                            required=False)
+
+    def clean(self):
+        """Ensure that we do not end-up with Categories resolving to same slug"""
+        cleaned_data = self.cleaned_data
+        name_to_lookup = self.cleaned_data['name']
+
+        try:
+            test_slug = slugify(name_to_lookup)
+            Category.objects.get(slug=test_slug)
+        except Category.DoesNotExist:
+            return cleaned_data
+        raise forms.ValidationError("Non unique Slug!")
 
     # Inine class to provide additional information on the form
     class Meta:
@@ -38,10 +52,10 @@ class PageForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         url = cleaned_data.get('url')
 
-        if url and not url.startswith('http://'):
+        if not re.match(r'^http[s]?://', url):
             url = 'http://' + url
             cleaned_data['url'] = url
-
+        
         return cleaned_data
 
     class Meta:

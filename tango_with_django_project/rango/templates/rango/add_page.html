@@ -1,0 +1,50 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>Add a Page</h1>
+
+    <form id="page_form" 
+            method="post"
+            action="/rango/category/{{ category.slug }}/add_page/">
+
+        {% csrf_token %}
+        
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+            {{ fields.errors }}
+            {{ field.help_text }}
+            {{ field }}
+        {% endfor %}
+
+        <input type="submit"
+                name="submit"
+                value="Add this page" />
+    </form>
+
+    <br />
+
+    <h1>Add a Page using as_p method </h1>
+    <form id="page_form" 
+            method="post"
+            action="/rango/category/{{ category.slug }}/add_page/">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit"
+                name="submit"
+                value="Add this page" />
+    </form>
+
+    {% if validation_errors %}
+        <div class="fail">
+            {{ validation_errors }}
+        </div>
+    {% endif %}
+
+{% endblock %}
