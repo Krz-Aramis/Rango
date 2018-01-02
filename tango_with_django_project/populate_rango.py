@@ -1,4 +1,5 @@
 import os
+import random
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                     'tango_with_django_project.settings')
@@ -55,6 +56,10 @@ def populate():
 def add_page(cat, title, url, views=0):
     p = Page.objects.get_or_create(category=cat, title=title)[0]
     p.url=url
+    if 0 == views:
+        # If no view count is provided, override with a random number
+        views = random.randrange(7, 700)
+
     p.views=views
     p.save()
     return p
