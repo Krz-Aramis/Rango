@@ -49,6 +49,7 @@ def category(request, category_name_slug):
     return render(request, 'rango/category.html', context_dict)
 
 def add_category(request):
+    context_dict = {}
     # Are we handling a POST request?
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -61,8 +62,9 @@ def add_category(request):
             #retunr the user to the home page
             return index(request)
         else:
-            # there are errors. print to terminal
-            print(form.errors)
+            # there are errors. 
+            # Capture the HTML code from the form and put it back in a special div
+            context_dict['validation_errors'] = form.errors
     else:
         # Request was not a POST, so present a form to enter data into
         form = CategoryForm()
@@ -70,4 +72,5 @@ def add_category(request):
     # Bad form (or form details), no form supplied
     # Render the form with error messages if applicable
 
-    return render(request,'rango/add_category.html', {'form': form })
+    context_dict['form'] = form
+    return render(request,'rango/add_category.html', context_dict)

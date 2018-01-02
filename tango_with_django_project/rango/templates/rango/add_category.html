@@ -41,4 +41,10 @@
                 value="Create Category" />
     </form>
 
+    {% if validation_errors %}
+        <div class="fail">
+            {{ validation_errors }}
+        </div>
+    {% endif %}
+
 {% endblock %}
