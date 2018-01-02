@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rango.models import Category, Page
+from rango.forms import CategoryForm
 
 def index(request):
     # Our requirements is to show the top 5 categories.
@@ -46,3 +47,27 @@ def category(request, category_name_slug):
         pass
     
     return render(request, 'rango/category.html', context_dict)
+
+def add_category(request):
+    # Are we handling a POST request?
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        # is this a valid form?
+        if form.is_valid():
+            # save the new category to the database
+            form.save(commit=True)
+
+            #retunr the user to the home page
+            return index(request)
+        else:
+            # there are errors. print to terminal
+            print(form.errors)
+    else:
+        # Request was not a POST, so present a form to enter data into
+        form = CategoryForm()
+
+    # Bad form (or form details), no form supplied
+    # Render the form with error messages if applicable
+
+    return render(request,'rango/add_category.html', {'form': form })
