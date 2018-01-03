@@ -2,7 +2,7 @@
 import re
 from django import forms
 from django.template.defaultfilters import slugify
-from rango.models import Page, Category
+from rango.models import Page, Category, User, UserProfile
 
 class CategoryForm(forms.ModelForm):
     """The Category Form specifications"""
@@ -70,3 +70,15 @@ class PageForm(forms.ModelForm):
         exclude = ('category',)
         #or specify the fields to include (i.e. not include the category field)
         #fields = ('title', 'url', 'views')
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website', 'picture')

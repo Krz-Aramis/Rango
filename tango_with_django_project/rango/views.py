@@ -1,7 +1,7 @@
 import re
 from django.shortcuts import render
 from rango.models import Category, Page
-from rango.forms import CategoryForm, PageForm
+from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 def index(request):
     # Our requirements is to show the top 5 categories.
@@ -107,3 +107,57 @@ def add_page(request, category_name_slug):
     context_dict['category'] = cat
 
     return render(request, 'rango/add_page.html', context_dict)
+
+def register(request):
+
+    # Let's figure out if the user is already known, etc
+    registered = False
+    context_dict = {}
+
+    # If we are posting, then process the data
+    if 'POST' == request.method:
+        # Grab the raw data from the request
+        # We are processing 2 models in the same request
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        # if both sets are valid:
+        if user_form.is_valid() and profile_form.is_valid():
+            # save this into the database
+            user = user_form.save()
+
+            # now hash the password using the set password method
+            user.set_password(user.password)
+            user.save()
+
+            # Now deal with the UserProfile instance.
+            # We delay saving the model to avoid integrity issues, hence the commit=False
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            # If a picture is provided place it in the model
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            # Now save the instance
+            profile.save()
+
+            # Success!
+            registered = True
+        else:
+            # Invalid form data
+            context_dict['user_validation_errors'] = user_form.errors 
+            context_dict['profile_validation_errors'] = profile_form.errors
+
+    # GET request, show the forms
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    # Capture the context
+    context_dict['user_form'] = user_form
+    context_dict['profile_form'] = profile_form
+    context_dict['registered'] = registered
+
+    # Render the template
+    return render(request, 'rango/register.html', context_dict)
