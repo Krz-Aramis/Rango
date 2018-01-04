@@ -12,6 +12,24 @@
         <section>
             {% block content %}
             {% endblock %}
+
+            {% if error_dictionaries %}
+                {% for dict, data in error_dictionaries.items %}
+
+                    {% comment %}
+                        'dict' is the name of sub dictionarry we stored.
+                        Its 'data' is the HTML code we need to display.
+                        It only makes sense to do so if there is actual content
+                    {% endcomment %}
+                    
+                    {% if data %}
+                    <div class="fail">
+                        {{ data }}
+                    </div>
+                    {% endif %}
+                
+                {% endfor %}
+            {% endif %}
             <footer>
                 <ul>
                     <li><a href="/rango">Index</a></li>

@@ -59,6 +59,8 @@ def category(request, category_name_slug):
 @login_required
 def add_category(request):
     context_dict = {}
+    error_dictionaries = {}
+
     # Are we handling a POST request?
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -73,7 +75,7 @@ def add_category(request):
         else:
             # there are errors. 
             # Capture the HTML code from the form and put it back in a special div
-            context_dict['validation_errors'] = form.errors
+            error_dictionaries['validation_errors'] = form.errors
     else:
         # Request was not a POST, so present a form to enter data into
         form = CategoryForm()
@@ -82,6 +84,8 @@ def add_category(request):
     # Render the form with error messages if applicable
 
     context_dict['form'] = form
+    context_dict['error_dictionaries'] = error_dictionaries
+
     return render(request,'rango/add_category.html', context_dict)
 
 @login_required
@@ -93,6 +97,8 @@ def add_page(request, category_name_slug):
         cat = None
     
     context_dict = {}
+    error_dictionaries = {}
+
     if request.method == 'POST':
         form = PageForm(request.POST)
 
@@ -105,13 +111,14 @@ def add_page(request, category_name_slug):
                 # Probably better to use a redirect here
                 return category(request, category_name_slug)
         else:
-            context_dict['validation_errors'] = form.errors
+            error_dictionaries['validation_errors'] = form.errors
     else:
         # Allow the user to add a page to this category
         form = PageForm()
 
     context_dict['form'] = form
     context_dict['category'] = cat
+    context_dict['error_dictionaries'] = error_dictionaries
 
     return render(request, 'rango/add_page.html', context_dict)
 
@@ -120,6 +127,7 @@ def register(request):
     # Let's figure out if the user is already known, etc
     registered = False
     context_dict = {}
+    error_dictionaries = {}
 
     # If we are posting, then process the data
     if 'POST' == request.method:
@@ -153,8 +161,8 @@ def register(request):
             registered = True
         else:
             # Invalid form data
-            context_dict['user_validation_errors'] = user_form.errors 
-            context_dict['profile_validation_errors'] = profile_form.errors
+            error_dictionaries['user_validation_errors'] = user_form.errors 
+            error_dictionaries['profile_validation_errors'] = profile_form.errors
 
     # GET request, show the forms
     else:
@@ -165,11 +173,15 @@ def register(request):
     context_dict['user_form'] = user_form
     context_dict['profile_form'] = profile_form
     context_dict['registered'] = registered
+    context_dict['error_dictionaries'] = error_dictionaries
 
     # Render the template
     return render(request, 'rango/register.html', context_dict)
 
 def user_login(request):
+
+    context_dict = {}
+    error_dictionaries = {}
 
     # Handle data submitted through POST method
     if 'POST' == request.method:
@@ -191,17 +203,23 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect('/rango/')
             else:
-                # TODO: create a 'error' page template
-                return HttpResponse("Your Rango account is disabled")
+                error_dictionaries['disabled_account'] = 'Your Rango account is disabled'
 
         else:
             # Invalid credentials, cannot log the user in
             print("Invalid login details for user {0} with password {1}.".format(str(username), str(password)))
-            return HttpResponse("Invalid login details supplied.")
+            error_dictionaries['invalid_account'] = 'Invalid login details supplied'
+
     # This is a GET request
     else:
         # Present the form. No context data needed
-        return render(request, 'rango/login.html')
+        pass
+    
+    # Prepare to display the page
+    
+    context_dict['error_dictionaries'] = error_dictionaries
+
+    return render(request, 'rango/login.html', context_dict)
 
 @login_required
 def restricted(request):
