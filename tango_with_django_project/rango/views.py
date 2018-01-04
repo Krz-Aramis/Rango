@@ -2,6 +2,7 @@ import re
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from rango.models import Category, Page
@@ -199,3 +200,7 @@ def user_login(request):
     else:
         # Present the form. No context data needed
         return render(request, 'rango/login.html')
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")

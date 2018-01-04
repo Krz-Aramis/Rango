@@ -4,6 +4,8 @@
 {% block content %}
     {% if user.is_authenticated %}
         <h1>Rango says... hello {{ user.username }}!</h1>
+        
+        <a href="/rango/restricted/">Restricted Page Test</a>
         <br />
     {% else %}
         <h1>Rango says...</h1>
