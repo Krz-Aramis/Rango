@@ -10,6 +10,12 @@ soon.
 1. Leverage Python virtual environment (virtualenv).
 2. Improve confidence in working with Web Applications.
 
+## HTML-Boilerplate envy
+
+Today, I have wasted a lot of time looking into the [HTML5 Boilerplate project](https://github.com/h5bp/html5-boilerplate). Indeed, there should be little need for me to handcraft all of the required CSS code for this learning application. Likewise, I would like to learn how to leverage such a framework. I write these lines to acknowledge that I wanted to chew too much too soon. Now is not the time to refactor the code to include this framework.
+
+I may have identified, however, a Django Project that could make this process easier ([Github link](https://github.com/mattsnider/django-html5-boilerplate)). Truthfully, I cannot commit myself to believe that this project, which has not been touched in 5 years, can provide the latest version of the project. If it is great! because, it is compatible with `pip` meaning that I will not have to track this as part of any repository.
+
 ## Assumptions
 
 - We will use the latest version of Python and Django for this tutorial. This is despite the fact that the book references old versions of both.
