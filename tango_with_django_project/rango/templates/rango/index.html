@@ -2,12 +2,21 @@
 {% load staticfiles %}
 
 {% block content %}
-    <h1>Rango says...</h1>
-    hello world! <strong>{{ boldmessage }}</strong>
-    <br />
-
-    <a href="/rango/register">Register Here!</a>
-    <br />
+    {% if user.is_authenticated %}
+        <h1>Rango says... hello {{ user.username }}!</h1>
+        <br />
+    {% else %}
+        <h1>Rango says...</h1>
+        hello world! <strong>{{ boldmessage }}</strong>
+        <br />
+    
+        <a href="/rango/login/">Login</a>
+        <br />
+        or
+        <br />
+        <a href="/rango/register">Register Here!</a>
+        <br />
+    {% endif %}
 
     {% if categories %}
     <ul>

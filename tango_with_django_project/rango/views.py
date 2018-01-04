@@ -1,5 +1,9 @@
 import re
+
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
+
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
@@ -161,3 +165,37 @@ def register(request):
 
     # Render the template
     return render(request, 'rango/register.html', context_dict)
+
+def user_login(request):
+
+    # Handle data submitted through POST method
+    if 'POST' == request.method:
+
+        # The username and password
+        # Using the GET method will ensure that an exception is raised.
+        # Using another method will return "None". This is not what we want
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Leverage Django internals to work out if these are valid credentials
+        user = authenticate(username=username, password=password)
+
+        # Instance is valid - the user was found
+        if user:
+            # is this an active user though?
+            if user.is_active:
+                # log the user into the application and redirect to the index
+                login(request, user)
+                return HttpResponseRedirect('/rango/')
+            else:
+                # TODO: create a 'error' page template
+                return HttpResponse("Your Rango account is disabled")
+
+        else:
+            # Invalid credentials, cannot log the user in
+            print("Invalid login details for user {0} with password {1}.".format(str(username), str(password)))
+            return HttpResponse("Invalid login details supplied.")
+    # This is a GET request
+    else:
+        # Present the form. No context data needed
+        return render(request, 'rango/login.html')
