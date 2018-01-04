@@ -56,6 +56,7 @@ def category(request, category_name_slug):
     context_dict['category_name_slug'] = category_name_slug
     return render(request, 'rango/category.html', context_dict)
 
+@login_required
 def add_category(request):
     context_dict = {}
     # Are we handling a POST request?
@@ -83,6 +84,7 @@ def add_category(request):
     context_dict['form'] = form
     return render(request,'rango/add_category.html', context_dict)
 
+@login_required
 def add_page(request, category_name_slug):
 
     try:
