@@ -62,4 +62,32 @@ Python apparently installed everything from the cache this time around. Accordin
 
 This was a punishing chapter. Indeed, the linking of a the very simple view turned into a major debuging exercise. This is because we have the latest and greatest verison of Django installed and, by contrast, the tutorial refers to an old version of it. Going forward, we have the choice of going back to an old version of Django and refactor the code, or pay attention! For now, I have decided to keep with Django 2.0.
 
+#### Chapter 09
+
+Here is an idea to *deal with possible view errors*:
+
+- In the `base.html`, test for the `error_dictionaries` variables.
+- In all of the views, when errors are encountered, append all the required dictionaries under the above.
+- In the `base.html`, iterate throught the dictionaries such as follows:
+
+``
+{% if error_dictionaries %}
+    {% for error in error_dictionaries $}
+        {% for data in error_dictionaries[error] $}
+            <div class="fail">
+                {{ data }}
+            </div>
+        {$ endfor %}
+    {$ endfor %}
+{% endif %}
+``
+
+Ideally, we will have an elegant way to attach the relevant dictionaries to the render's context inside of the `views.py` file, such as convience function:
+
+``
+MyClass.AttachErrorDictionaries(context_dict, (aform.error, bform.error))
+``
+
+That being said, modifying an input variable in Python does not seem to be the best way to do things. Along with this, this new function will have to be compatible with one or many input dictionaries. This makes the code complex for most views as these only deal with errors from one form. Perhaps, it is best to keep with the current verbose way to deal with this situation and only spend the time to produce a clever "_handler_" if more instances of multiple forms arise.
+
    Lionel Saliou, Ph.D
