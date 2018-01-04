@@ -53,5 +53,7 @@
 {% endblock %}
 
 {% block myfooter %}
-    <li><a href="/rango/add_category/">Add a New Category</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="/rango/add_category/">Add a New Category</a></li>
+    {% endif %}
 {% endblock %}

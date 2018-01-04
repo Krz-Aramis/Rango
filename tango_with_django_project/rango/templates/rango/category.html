@@ -22,9 +22,11 @@
 {% endblock %}
 
 {% block myfooter %}
-    {% if category %}
-        <li><a href="/rango/category/{{ category_name_slug }}/add_page/">Add a Page to this category</a></li>
-    {% else %}
-        <li><a href="/rango/add_category/">Create your new category</a></li>
-    {% endif %}
+    {% if user.is_authenticated %}
+        {% if category %}
+            <li><a href="/rango/category/{{ category_name_slug }}/add_page/">Add a Page to this category</a></li>
+        {% else %}
+            <li><a href="/rango/add_category/">Create your new category</a></li>
+        {% endif %}
+    {%endif %}
 {% endblock %}

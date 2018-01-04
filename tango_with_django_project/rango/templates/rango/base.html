@@ -15,6 +15,16 @@
             <footer>
                 <ul>
                     <li><a href="/rango">Index</a></li>
+                    {% if user.is_authenticated %}
+                        <li> Not {{ user.username }}? <a href="/rango/logout/">Logout</a>!</li>
+                    {% else %}
+                        {% if 'login/' not in request.build_absolute_uri %}
+                            <li><a href="/rango/login/">Login</a></li>
+                        {% endif %}
+                        {% if 'register/' not in request.build_absolute_uri %}
+                            <li><a href="/rango/register">Register</a></li>
+                        {% endif %}
+                    {% endif %}
                     {% block myfooter %}
                     {% endblock %}
                     <li><a href="/rango/about/">About</a></li>
