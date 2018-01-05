@@ -16,6 +16,10 @@ Today, I have wasted a lot of time looking into the [HTML5 Boilerplate project](
 
 I may have identified, however, a Django Project that could make this process easier ([Github link](https://github.com/mattsnider/django-html5-boilerplate)). Truthfully, I cannot commit myself to believe that this project, which has not been touched in 5 years, can provide the latest version of the project. If it is great! because, it is compatible with `pip` meaning that I will not have to track this as part of any repository.
 
+## Decoupling settings and code
+
+Through this tutorial, there are mentions that some of the approaches we are taking are acceptable in local development, however might pose a risk during deployment. Needless to say, more experienced Django developers are very aware of this and therefore there are efforts to decouple the application from its configuration, such as with the [python decouple project](https://pypi.python.org/pypi/python-decouple). As with the above, it is compatible with `pip` and therefore we should not need to maintain it in GIT.
+
 ## Assumptions
 
 - We will use the latest version of Python and Django for this tutorial. This is despite the fact that the book references old versions of both.
