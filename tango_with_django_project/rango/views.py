@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
@@ -9,6 +10,8 @@ from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 def index(request):
+    
+    rango_index_url = 'rango/index.html'
     # Our requirements is to show the top 5 categories.
     # Therefore, we poll of the categories arranged by number
     # of likes and supply the first 5 to our template for display
@@ -22,7 +25,40 @@ def index(request):
                     'pages'      : page_list,
     }
 
-    return render(request, 'rango/index.html', context_dict)
+    # Using COOKIES, we count number of visits and time of last visit
+    visits = int(request.COOKIES.get('visits', '1'))
+    reset_last_visit_time = False
+    # get the handle of the response we are currently building
+    response = render(request, rango_index_url, context_dict)
+
+    # Does the cookie 'last_visit' exist?
+    if 'last_visit' in request.COOKIES:
+        # it does, get the value
+        last_visit = request.COOKIES['last_visit']
+        # Cast to a valid python date/time object
+        # Note: we are discarding the last 7 characters from the string!
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+
+        # If it has been more than a day (.days > 0):
+        # For testing 5 seconds will do.
+        if (datetime.now() - last_visit_time).seconds > 5:
+            visits = visits + 1
+            # set the flag accordingly so we update the cookie
+            reset_last_visit_time = True
+    else:
+        # cookie does not exist
+        reset_last_visit_time = True
+
+    # Update the visit counter in the request context
+    context_dict['visits'] = visits
+    response = render(request, rango_index_url, context_dict)
+
+    # Add cookie data to response
+    if reset_last_visit_time:
+        response.set_cookie('last_visit', datetime.now() )
+        response.set_cookie('visits', visits)
+
+    return response 
 
 def about(request):
     context={'message': "About Page!"}
@@ -123,7 +159,7 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 def register(request):
-
+    
     # Let's figure out if the user is already known, etc
     registered = False
     context_dict = {}

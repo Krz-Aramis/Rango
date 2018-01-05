@@ -21,7 +21,9 @@
         <a href="{% url 'rango:register' %}">Register Here!</a>
         <br />
     {% endif %}
-
+    
+    <p>{{ visits }} visits.</p> 
+    
     {% if categories %}
     <ul>
         {% for category in categories %}
