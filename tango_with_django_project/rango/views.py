@@ -63,8 +63,16 @@ def index(request):
     return response
 
 def about(request):
-    context={'message': "About Page!"}
-    return render(request, 'rango/about.html', context)
+    context_dict={'message': "About Page!"}
+
+    if request.session.get('visits'):
+        count = request.session.get('visits')
+    else:
+        count = 0
+
+    context_dict['visits'] = count
+
+    return render(request, 'rango/about.html', context_dict)
 
 def category(request, category_name_slug):
     context_dict = {}
