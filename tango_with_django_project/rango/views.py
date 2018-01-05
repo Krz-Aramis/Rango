@@ -10,7 +10,7 @@ from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 def index(request):
-    
+
     rango_index_url = 'rango/index.html'
     # Our requirements is to show the top 5 categories.
     # Therefore, we poll of the categories arranged by number
@@ -25,16 +25,18 @@ def index(request):
                     'pages'      : page_list,
     }
 
-    # Using COOKIES, we count number of visits and time of last visit
-    visits = int(request.COOKIES.get('visits', '1'))
+    # Using the Server-side session object, we count number of visits and time of last visit
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+
     reset_last_visit_time = False
     # get the handle of the response we are currently building
     response = render(request, rango_index_url, context_dict)
 
-    # Does the cookie 'last_visit' exist?
-    if 'last_visit' in request.COOKIES:
-        # it does, get the value
-        last_visit = request.COOKIES['last_visit']
+    # Does the key 'last_visit' exist?
+    last_visit = request.session.get('last_visit')
+    if last_visit:
         # Cast to a valid python date/time object
         # Note: we are discarding the last 7 characters from the string!
         last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
@@ -49,16 +51,16 @@ def index(request):
         # cookie does not exist
         reset_last_visit_time = True
 
+    # Update session data
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now() )
+        request.session['visits'] = visits
+
     # Update the visit counter in the request context
     context_dict['visits'] = visits
     response = render(request, rango_index_url, context_dict)
 
-    # Add cookie data to response
-    if reset_last_visit_time:
-        response.set_cookie('last_visit', datetime.now() )
-        response.set_cookie('visits', visits)
-
-    return response 
+    return response
 
 def about(request):
     context={'message': "About Page!"}
@@ -70,7 +72,7 @@ def category(request, category_name_slug):
 
     try:
         # We should be able to find the category from its slug.
-        # If not a DoesNotExist exception is raised. 
+        # If not a DoesNotExist exception is raised.
         category = Category.objects.get(slug=category_name_slug)
         # when the line below is reached, it means the category was found
         context_dict['category_name'] = category.name
@@ -88,7 +90,7 @@ def category(request, category_name_slug):
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
         pass
-    
+
     context_dict['category_name_slug'] = category_name_slug
     return render(request, 'rango/category.html', context_dict)
 
@@ -109,7 +111,7 @@ def add_category(request):
             #retunr the user to the home page
             return index(request)
         else:
-            # there are errors. 
+            # there are errors.
             # Capture the HTML code from the form and put it back in a special div
             error_dictionaries['validation_errors'] = form.errors
     else:
@@ -131,7 +133,7 @@ def add_page(request, category_name_slug):
         cat = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
         cat = None
-    
+
     context_dict = {}
     error_dictionaries = {}
 
@@ -141,7 +143,7 @@ def add_page(request, category_name_slug):
         if form.is_valid():
             if cat:
                 page = form.save(commit=False)
-                page.category = cat 
+                page.category = cat
                 page.views = 0
                 page.save()
                 # Probably better to use a redirect here
@@ -159,7 +161,7 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 def register(request):
-    
+
     # Let's figure out if the user is already known, etc
     registered = False
     context_dict = {}
@@ -197,7 +199,7 @@ def register(request):
             registered = True
         else:
             # Invalid form data
-            error_dictionaries['user_validation_errors'] = user_form.errors 
+            error_dictionaries['user_validation_errors'] = user_form.errors
             error_dictionaries['profile_validation_errors'] = profile_form.errors
 
     # GET request, show the forms
@@ -250,9 +252,9 @@ def user_login(request):
     else:
         # Present the form. No context data needed
         pass
-    
+
     # Prepare to display the page
-    
+
     context_dict['error_dictionaries'] = error_dictionaries
 
     return render(request, 'rango/login.html', context_dict)
