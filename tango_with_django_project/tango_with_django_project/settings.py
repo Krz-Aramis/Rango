@@ -129,3 +129,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Where user should be redirected in case they fail the login_required decorator check
 LOGIN_URL = '/rango/login/'
+
+# Ensure that sessions are cleared when we close our browser down
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Cookie valid for 1 day
+SESSION_COOKIE_AGE = 86400
