@@ -3,3 +3,4 @@ __pycache__
 .vscode
 .markdownlint.json
 *profile_images/
+*.code-workspace
