@@ -5,27 +5,27 @@
     {% if user.is_authenticated %}
         <h1>Rango says... hello {{ user.username }}!</h1>
         
-        <a href="{% url 'restricted' %}">Restricted Page Test</a>
+        <a href="{% url 'rango:restricted' %}">Restricted Page Test</a>
         <br />
-        <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'rango:logout' %}">Logout</a>
         <br />
     {% else %}
         <h1>Rango says...</h1>
         hello world! <strong>{{ boldmessage }}</strong>
         <br />
     
-        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'rango:login' %}">Login</a>
         <br />
         or
         <br />
-        <a href="{% url 'register' %}">Register Here!</a>
+        <a href="{% url 'rango:register' %}">Register Here!</a>
         <br />
     {% endif %}
 
     {% if categories %}
     <ul>
         {% for category in categories %}
-        <li><a href="{% url 'category' category.slug %}">
+        <li><a href="{% url 'rango:category' category.slug %}">
                 {{ category.name }}
             </a>({{ category.likes }} likes)
         </li>
@@ -54,6 +54,6 @@
 
 {% block myfooter %}
     {% if user.is_authenticated %}
-        <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
+        <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
     {% endif %}
 {% endblock %}

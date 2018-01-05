@@ -26,9 +26,9 @@
 {% block myfooter %}
     {% if user.is_authenticated %}
         {% if category %}
-            <li><a href="{% url 'add_page' category_name_slug %}">Add a Page to this category</a></li>
+            <li><a href="{% url 'rango:add_page' category_name_slug %}">Add a Page to this category</a></li>
         {% else %}
-            <li><a href="{% url 'add_category' %}">Create your new category</a></li>
+            <li><a href="{% url 'rango:add_category' %}">Create your new category</a></li>
         {% endif %}
     {%endif %}
 {% endblock %}

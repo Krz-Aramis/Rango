@@ -6,7 +6,7 @@
 
     <form id="category_form" 
             method="post"
-            action="{% url 'add_category' %}">
+            action="{% url 'rango:add_category' %}">
 
         {% csrf_token %}
         
@@ -30,7 +30,7 @@
     <h1>Add a Category using as_p method </h1>
     <form id="category_form" 
             method="post"
-            action="{% url 'add_category' %}">
+            action="{% url 'rango:add_category' %}">
 
         {% csrf_token %}
 
