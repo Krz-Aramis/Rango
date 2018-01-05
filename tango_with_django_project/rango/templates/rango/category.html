@@ -1,9 +1,11 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
 
+{% block title %}{{ category_name }}{% endblock %}
+
 {% block content %}
     {% if category %}
-        <h1>{{ category.name }}</h1>
+        <h1>{{ category_name }}</h1>
         {% if pages %}
             <ul>
                 {%for page in pages %}
@@ -24,9 +26,9 @@
 {% block myfooter %}
     {% if user.is_authenticated %}
         {% if category %}
-            <li><a href="/rango/category/{{ category_name_slug }}/add_page/">Add a Page to this category</a></li>
+            <li><a href="{% url 'add_page' category_name_slug %}">Add a Page to this category</a></li>
         {% else %}
-            <li><a href="/rango/add_category/">Create your new category</a></li>
+            <li><a href="{% url 'add_category' %}">Create your new category</a></li>
         {% endif %}
     {%endif %}
 {% endblock %}

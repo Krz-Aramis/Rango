@@ -13,7 +13,7 @@
 
     <form id="user_form" 
             method="post"
-            action="/rango/register/"
+            action="{% url 'register' %}"
             enctype="multipart/form-data">
 
         {% csrf_token %}

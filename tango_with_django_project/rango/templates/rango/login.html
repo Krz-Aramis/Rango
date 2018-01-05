@@ -8,7 +8,7 @@
     {# We did not create a form model for this. We cannot use the as_p function #}
     <form id="login_form" 
             method="post"
-            action="/rango/login/">
+            action="{% url 'login' %}">
 
         {% csrf_token %}
         
