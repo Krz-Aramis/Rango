@@ -1,11 +1,17 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
+{% load bootstrap4 %}
 
 {% block content %}
+  <div class="page-header">
     <h1>Rango says...</h1>
-    hey <strong>{{ message }}</strong>
-    <br />
-    You visited Rango {{visits}} times!
-    <br />
-    <img src="/media/icon_mrgreen.gif" alt="Mr Green" />
+    hey {{ message }}
+  </div>
+  <div>
+    <p>
+      You visited Rango {{visits}} times!
+      <br />
+      <img src="/media/icon_mrgreen.gif" alt="Mr Green" />
+    </p>
+  </div>
 {% endblock %}

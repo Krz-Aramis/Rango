@@ -1,44 +1,35 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
+{% load bootstrap4 %}
 
 {% block content %}
+  <div class="page-header">
     <h1>Add a Page</h1>
-
-    <form id="page_form" 
+  </div>
+  <div>
+    {% if category %}
+      <form role="form"
+            id="page_form"
             method="post"
             action="{% url 'rango:add_page' category.slug %}">
 
-        {% csrf_token %}
-        
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
+        <h2 class="form-signin-heading">Add a Page to <a href="/rango/category/{{category.slug}}/"> {{ category.name }}</a></h2>
+          {% csrf_token %}
 
-        {% for field in form.visible_fields %}
-            {{ fields.errors }}
-            {{ field.help_text }}
-            {{ field }}
-        {% endfor %}
+          {% for hidden in form.hidden_fields %}
+              {{ hidden }}
+          {% endfor %}
 
-        <input type="submit"
-                name="submit"
-                value="Add this page" />
-    </form>
+          {% for field in form.visible_fields %}
+              {{ fields.errors }}
+              {{ field.help_text }}<br/>
+              {{ field }}<br/>
+          {% endfor %}
 
-    <br />
-
-    <h1>Add a Page using as_p method </h1>
-    <form id="page_form" 
-            method="post"
-            action="{% url 'rango:add_page' category.slug %}">
-
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <input type="submit"
-                name="submit"
-                value="Add this page" />
-    </form>
-
+          <button class="btn btn-primary" type="submit" name="submit">Add Page</button>
+      </form>
+    {% else %}
+      <p>This is category does not exist.</p>
+    {% endif %}
+  </div>
 {% endblock %}

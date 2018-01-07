@@ -1,57 +1,67 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
+{% load bootstrap4 %}
 
 {% block content %}
     {% if user.is_authenticated %}
+      <div class="page-header">
         <h1>Rango says... hello {{ user.username }}!</h1>
+      </div>
 
+      <div>
         <a href="{% url 'rango:restricted' %}">Restricted Page Test</a>
         <br />
         <a href="{% url 'auth_logout' %}?next=/rango/">Logout</a>
         <br />
+      </div>
     {% else %}
+      <div class="page-header">
         <h1>Rango says...</h1>
         hello world! <strong>{{ boldmessage }}</strong>
-        <br />
+      </div>
 
+      <div>
         <a href="{% url 'auth_login' %}">Login</a>
         <br />
         or
         <br />
         <a href="{% url 'registration_register' %}">Register Here!</a>
         <br />
+      </div>
     {% endif %}
 
-    <p>{{ visits }} visits.</p>
+    <div>
+      <p>{{ visits }} visits.</p>
 
-    {% if categories %}
-    <ul>
-        {% for category in categories %}
-        <li><a href="{% url 'rango:category' category.slug %}">
-                {{ category.name }}
-            </a>({{ category.likes }} likes)
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <strong>There are no categories present.</strong>
-    {% endif %}
+      {% if categories %}
+      <ul>
+          {% for category in categories %}
+          <li><a href="{% url 'rango:category' category.slug %}">
+                  {{ category.name }}
+              </a>({{ category.likes }} likes)
+          </li>
+          {% endfor %}
+      </ul>
+      {% else %}
+          <strong>There are no categories present.</strong>
+      {% endif %}
 
-    {% if pages %}
-    <ul>
-        {% for page in pages %}
-        <li>With {{ page.views }} views:
-            <a href="{{ page.url }}">
-                {{ page.title }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <strong>There are no pages present.</strong>
-    {% endif %}
+      {% if pages %}
+      <ul>
+          {% for page in pages %}
+          <li>With {{ page.views }} views:
+              <a href="{{ page.url }}">
+                  {{ page.title }}
+              </a>
+          </li>
+          {% endfor %}
+      </ul>
+      {% else %}
+          <strong>There are no pages present.</strong>
+      {% endif %}
 
-    <img src="{% static "rango/images/rango.jpg" %}" alt="Picture of Rango" />
+      <img src="{% static "rango/images/rango.jpg" %}" alt="Picture of Rango" />
+  </div>
 {% endblock %}
 
 {% block myfooter %}
