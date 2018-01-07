@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from rango.models import Category, Page
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from rango.forms import CategoryForm, PageForm
 
 def index(request):
 
@@ -168,112 +168,6 @@ def add_page(request, category_name_slug):
 
     return render(request, 'rango/add_page.html', context_dict)
 
-def register(request):
-
-    # Let's figure out if the user is already known, etc
-    registered = False
-    context_dict = {}
-    error_dictionaries = {}
-
-    # If we are posting, then process the data
-    if 'POST' == request.method:
-        # Grab the raw data from the request
-        # We are processing 2 models in the same request
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-
-        # if both sets are valid:
-        if user_form.is_valid() and profile_form.is_valid():
-            # save this into the database
-            user = user_form.save()
-
-            # now hash the password using the set password method
-            user.set_password(user.password)
-            user.save()
-
-            # Now deal with the UserProfile instance.
-            # We delay saving the model to avoid integrity issues, hence the commit=False
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            # If a picture is provided place it in the model
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
-            # Now save the instance
-            profile.save()
-
-            # Success!
-            registered = True
-        else:
-            # Invalid form data
-            error_dictionaries['user_validation_errors'] = user_form.errors
-            error_dictionaries['profile_validation_errors'] = profile_form.errors
-
-    # GET request, show the forms
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-
-    # Capture the context
-    context_dict['user_form'] = user_form
-    context_dict['profile_form'] = profile_form
-    context_dict['registered'] = registered
-    context_dict['error_dictionaries'] = error_dictionaries
-
-    # Render the template
-    return render(request, 'rango/register.html', context_dict)
-
-def user_login(request):
-
-    context_dict = {}
-    error_dictionaries = {}
-
-    # Handle data submitted through POST method
-    if 'POST' == request.method:
-
-        # The username and password
-        # Using the GET method will ensure that an exception is raised.
-        # Using another method will return "None". This is not what we want
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        # Leverage Django internals to work out if these are valid credentials
-        user = authenticate(username=username, password=password)
-
-        # Instance is valid - the user was found
-        if user:
-            # is this an active user though?
-            if user.is_active:
-                # log the user into the application and redirect to the index
-                login(request, user)
-                return HttpResponseRedirect('/rango/')
-            else:
-                error_dictionaries['disabled_account'] = 'Your Rango account is disabled'
-
-        else:
-            # Invalid credentials, cannot log the user in
-            print("Invalid login details for user {0} with password {1}.".format(str(username), str(password)))
-            error_dictionaries['invalid_account'] = 'Invalid login details supplied'
-
-    # This is a GET request
-    else:
-        # Present the form. No context data needed
-        pass
-
-    # Prepare to display the page
-
-    context_dict['error_dictionaries'] = error_dictionaries
-
-    return render(request, 'rango/login.html', context_dict)
-
 @login_required
 def restricted(request):
     return render(request, 'rango/restricted.html', {'message': "Since you're logged in, you can see this text!"})
-
-# This decorator ensures that only valid users can accept this view
-@login_required
-def user_logout(request):
-    # we are confident the user is logged in. Log them out ow
-    logout(request)
-    return HttpResponseRedirect('/rango/')

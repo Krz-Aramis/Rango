@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rango.models import Category, Page, UserProfile
+from rango.models import Category, Page
 
 # Class to customise the Admin interface
 # It ensures that the slug field is automatically populated
@@ -9,4 +9,3 @@ class CategoryAdmin(admin.ModelAdmin):
 # Update the registration of our models with our custom interface
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Page)
-admin.site.register(UserProfile)

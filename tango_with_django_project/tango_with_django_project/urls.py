@@ -24,14 +24,15 @@ from rango import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('rango.urls')),
+    path('accounts/', include('registration.backends.simple.urls')),
 ]
 
 # TODO: remove this BEFORE deployment. It is not efficient or recommended.
 if not settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, 
+    urlpatterns += static(settings.STATIC_URL,
         document_root=settings.STATIC_ROOT)
 else:
-    urlpatterns += [ re_path(r'^media/(?P<path>.*)$', 
-                       serve, 
+    urlpatterns += [ re_path(r'^media/(?P<path>.*)$',
+                       serve,
                        {'document_root': settings.MEDIA_ROOT,})
     ]
