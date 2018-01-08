@@ -1,41 +1,41 @@
 /* Taken from drag_upload.html */
 
-#holder { 
+#holder {
     border: 10px dashed #ccc;
-    width: 300px; 
-    min-height: 300px; 
+    width: 300px;
+    min-height: 300px;
     margin: 20px auto;
 }
 
-#holder.hover { 
-    border: 10px dashed #0c0; 
+#holder.hover {
+    border: 10px dashed #0c0;
 }
 
-#holder img { 
-    display: block; 
-    margin: 10px auto; 
+#holder img {
+    display: block;
+    margin: 10px auto;
 }
 
-#holder p { 
-    margin: 10px; 
-    font-size: 14px; 
+#holder p {
+    margin: 10px;
+    font-size: 14px;
 }
 
-progress { 
-    width: 100%; 
+progress {
+    width: 100%;
 }
 
-progress:after { 
-    content: '%'; 
+progress:after {
+    content: '%';
 }
 
-.fail { 
-    background: #c00; 
-    padding: 2px; 
+.fail {
+    background: #c00;
+    padding: 2px;
     color: #fff;
 }
 
-.hidden { 
+.hidden {
     display: none !important;
 }
 
@@ -69,10 +69,9 @@ p.error {
 
 footer {
     display: table;
-    width: 97%;
-    padding-left: 1.5%;
-    padding-right: 1.5%;
-    border: 1px dashed #0c0; 
+    color: #fff;
+    border: 4px #343a40;
+    padding: 4px 4px 4px 4px
 }
 
 footer ul {
