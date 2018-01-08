@@ -87,7 +87,9 @@
                   <li><a href="{% url 'rango:index' %}">Index</a></li>
                   {% if user.is_authenticated %}
                       <li> Not {{ user.username }}? <a href="{% url 'auth_logout' %}?next=/rango/">Logout</a>!</li>
-                      <li><a href="{% url 'auth_password_change' %}?next=/rango/">Change password</a></li>
+                      {% if 'change/' not in request.build_absolute_uri %}
+                        <li><a href="{% url 'auth_password_change' %}?next=/rango/">Change password</a></li>
+                      {% endif %}
                   {% else %}
                       {% if 'login/' not in request.build_absolute_uri %}
                           <li><a href="{% url 'auth_login' %}">Login</a></li>
