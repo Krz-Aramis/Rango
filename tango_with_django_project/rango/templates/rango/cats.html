@@ -1,0 +1,20 @@
+
+<div class="list-group">
+{% if cats %}
+  {% for c in cats %}
+        {% comment %}
+        We modify the link classes inline.
+        We colour 'primary' when we are on the corresponding cateogry.
+        We use 'dark' otherwise.
+        The code is "glued" because we need to properly construct the name of the CSS class.
+        {% endcomment %}
+        <a class="list-group-item list-group-item-{% if c == act_cat %}primary{% else %}dark{% endif %}"
+           href="{% url 'rango:category' c.slug %}">{{ c.name }}
+        </a>
+  {% endfor %}
+{% else %}
+    <p class="list-group-item list-group-item-dark">
+        <strong>There are no category present.</strong>
+    </p>
+{% endif %}
+</div>

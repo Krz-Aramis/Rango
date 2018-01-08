@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load bootstrap4 %}
+
+{# The line below loads our code file and makes the function therein available in this template #}
+{% load rango_extras %}
+
 <html{% if LANGUAGE_CODE %} lang="{{ LANGUAGE_CODE }}"{% endif %}>
 
     <head>
@@ -52,8 +56,15 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
-                    {% block side_block %}{% endblock %}
+                    {% block side_block %}
+                      {% comment %}
+                      Observe we are passing a parameter to the function.
+                      This variable only exists when visiting the cateogry pages!
+                      {% endcomment %}
+                      {% get_category_list category %}
+                    {% endblock %}
             </div>
+
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <div>
                   {% block content %}
