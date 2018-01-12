@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This GIT repository is my active learning trail for the Django tutorial "Tango with Rango". As I write these lines, this is the most complete tutorial I have found on this framework. I wish to solidify the learning I have done so far via sites such as Pluralsight. Along with this, I want to be able to build a planning utility for Alexandra and myself
+This GIT repository is my active learning trail for the Django tutorial "[Tango with Django](http://www.tangowithdjango.com/book17/chapters/tango.html)". As I write these lines, this is the most complete tutorial I have found on this framework. I wish to solidify the learning I have done so far via sites such as Pluralsight. Along with this, I want to be able to build a planning utility for Alexandra and myself
 soon.
 
 ## Aims
@@ -93,5 +93,9 @@ MyClass.AttachErrorDictionaries(context_dict, (aform.error, bform.error))
 ``
 
 That being said, modifying an input variable in Python does not seem to be the best way to do things. Along with this, this new function will have to be compatible with one or many input dictionaries. This makes the code complex for most views as these only deal with errors from one form. Perhaps, it is best to keep with the current verbose way to deal with this situation and only spend the time to produce a clever "_handler_" if more instances of multiple forms arise.
+
+#### No Chapter 15
+
+Although I do have a Microsoft Live Account I will not be signing up for an Azure contract just to do this chapter. First of all, the latest version of the this tutorial does not use Microsoft Azure anymore. Second of all, Microsoft has a weird offer today and requires the signing of a contract. It may not cost me anything, but it looks like more bother than it is worth. I am nearning the end of the tutorial anyways. Should I have the need to truly learn about external service integration, I will revisit this chapter.
 
    Lionel Saliou, Ph.D
