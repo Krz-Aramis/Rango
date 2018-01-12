@@ -171,3 +171,29 @@ def add_page(request, category_name_slug):
 @login_required
 def restricted(request):
     return render(request, 'rango/restricted.html', {'message': "Since you're logged in, you can see this text!"})
+
+def track_url(request):
+
+    page_id = None
+    # Figure out which page has been requested.
+    if request.method == 'GET':
+        # if the page_id keyword present?
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+
+        # We have an ID, let's look-up the data
+        if page_id and page_id is not None:
+            try:
+                page = Page.objects.get(id=page_id)
+                # We have the page!
+                # increment the number of views on the this page and save this.about
+                views = page.views
+                page.views = views + 1
+                page.save()
+                # Now redirect the user to the requested page
+                return HttpResponseRedirect(page.url)
+            except Page.DoesNotExist:
+                page = None
+
+    # Page ID is bogus or something else went wrong, redirect to the home page
+    return HttpResponseRedirect('/')
