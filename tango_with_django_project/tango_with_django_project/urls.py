@@ -21,9 +21,17 @@ from django.conf.urls.static import static
 from django.views.static import serve
 from rango import views
 
+from registration.backends.simple.views import RegistrationView
+
+# Create a new class that redirects the user to the index page, if successful at logging
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, new_user):
+        return '/rango/register_profile'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('rango.urls')),
+    path('accounts/register/', MyRegistrationView.as_view(), name='registration_register'),
     path('accounts/', include('registration.backends.simple.urls')),
 ]
 

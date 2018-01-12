@@ -1,0 +1,36 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block content %}
+<!--
+  <div class="page-header">
+    <h1>Complete your user profile here!</h1>
+    <h2>Using Django-Auth-Redux!</h2>
+  </div>
+-->
+  <div>
+      <form id="profile_form"
+            role="form"
+            method="post"
+            action="."
+            enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <h2 class="form-signin-heading">Complete your Rango user profile here!</h2>
+        {% bootstrap_form profile_form %}
+        <!--
+        <div class="form-group" >
+          <p> <label for="id_website">Website:</label>
+          <input class="form-control"  id="id_website" maxlength="1024" name="website" type="url"  placeholder="Entre your website URL"/></p>
+        </div>
+        <div class="form-group">
+          <p><label for="id_picture">Profile picture:</label>
+          <input class="form-control" id="id_picture" name="picture" type="media" placeholder="Choose a profile picture" /></p>
+        </div>
+      -->
+      <button type="submit" class="btn btn-default">Submit</button>
+  </div>
+{% endblock %}
+

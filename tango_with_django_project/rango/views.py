@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from rango.models import Category, Page
-from rango.forms import CategoryForm, PageForm
+from rango.models import Category, Page, UserProfile
+from rango.forms import CategoryForm, PageForm, UserProfileForm
 
 def index(request):
 
@@ -197,3 +197,41 @@ def track_url(request):
 
     # Page ID is bogus or something else went wrong, redirect to the home page
     return HttpResponseRedirect('/')
+
+def register_profile(request):
+    registered = False
+    context_dict = {}
+    error_dictionaries = {}
+
+    if 'POST' == request.method:
+        # grab the form data
+        profile_form = UserProfileForm(data=request.POST)
+
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+
+            # Using the request object, we work out who we are going the registration for!
+            if request.user.is_authenticated:
+                profile.user = request.user
+            else:
+                print("the {0} is not authenticated".format(str(current_user)))
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+
+            registered=True
+        else:
+            error_dictionaries['profile_validation_error'] = profile_form.errors
+    else:
+        profile_form = UserProfileForm()
+
+    if registered:
+        # TODO: redirect new users to their profile page.
+        return HttpResponseRedirect('/')
+    else:
+        context_dict['profile_form'] = profile_form
+        context_dict['registered'] = registered
+        context_dict['error_dictionaries'] = error_dictionaries
+        return render(request, 'registration/profile_registration.html', context_dict)
