@@ -88,7 +88,7 @@ def category(request, category_name_slug):
 
         # Now get all the pages for this category
         # Note: in the Page model, the category field is an object reference!
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
         # Add the results to the context the template has to render
         context_dict['pages'] = pages
 
