@@ -1,0 +1,17 @@
+<div>
+  <ul class="nav pull-right navbar-nav">
+    <li class="dropdown" id="menuLogin">
+      <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Login</a>
+      <div class="dropdown-menu" style="padding:17px;">
+        <form class="form-signin" role="form" method="post" id="formLogin" action="{% url 'auth_login' %}">
+          {% csrf_token %}
+          <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+          <br />
+          <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required />
+          <br />
+          <button type="submit" value="Submit" id="btnLogin" class="btn btn-primary btn-block">Login</button>
+        </form>
+      </div>
+    </li>
+  </ul>
+</div>

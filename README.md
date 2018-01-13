@@ -10,6 +10,10 @@ soon.
 1. Leverage Python virtual environment (virtualenv).
 2. Improve confidence in working with Web Applications.
 
+## I am bad at CSS
+
+I have spent of lot of time... in fact too much time today, trying to fix this or that in Rango. A lot of time, it was because some elements are not displayed the way I want them to be. The most enraging things are when a good example is found online, but even copy and pasting does not give the expected results. I am especially worried when some designers have solved the "CSS problem" using Javascript. Still, there are tons of elements within Rango that could use the "eye" of a designer. This is not me. I should continue to focus on providing the functionality. After all, this is what a Django application does. The layout and playing or learning about CSS can come at a later point. Actually, it might be better as applying CSS skills will have a material impact on something I have already built.
+
 ## HTML-Boilerplate envy
 
 Today, I have wasted a lot of time looking into the [HTML5 Boilerplate project](https://github.com/h5bp/html5-boilerplate). Indeed, there should be little need for me to handcraft all of the required CSS code for this learning application. Likewise, I would like to learn how to leverage such a framework. I write these lines to acknowledge that I wanted to chew too much too soon. Now is not the time to refactor the code to include this framework.
