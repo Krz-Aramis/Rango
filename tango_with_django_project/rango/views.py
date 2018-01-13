@@ -307,12 +307,23 @@ def edit_profile(request, user_profile_id):
         # https://stackoverflow.com/questions/26651688/django-integrity-error-unique-constraint-failed-user-profile-user-id#26652053
         form = UserProfileForm(request.POST, request.FILES or None, instance=user_profile)
 
+        # NOTE: to read the value of a check-box it must have a name and a value.
+        # When the widget is 'checked' the value set in HTML is passed to this view for processing.
+        # Otherwise, (eg no checked) the field is not provided at all. Hence python variable will be None
+        clear_image = request.POST.get('clear_image')
+
         if form.is_valid():
             # TODO: this seems to allow for changing user profiles willyneely
-            # More logic required for image handling?
+            the_profile = form.save(commit=False)
+
+            if clear_image is not None and  '' != clear_image:
+                # SNAG: this does not allow the overload in the Model to delete the underlying file
+                # On the plus side, if the user clears the default, it does not delete the default image file!
+                the_profile.picture = None
+
             # This code updates the image correctly, but does not remove the orphaned one.
             # Removal is done in the save overload of the model.
-            form.save()
+            the_profile.save()
             # Redirects to the user's profile page
             return profile(request, user_profile_id)
         else:
