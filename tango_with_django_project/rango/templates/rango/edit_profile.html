@@ -1,0 +1,45 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Hello {{ request.user.username }}</h1>
+</div>
+
+  <div>
+    <form id="profile_form"
+          role="form"
+          method="post"
+          action="{% url 'rango:edit_profile' user_profile_id %}"
+          enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      <h2 class="form-signin-heading">Update your Rango profile information:</h2>
+      <!-- the code below is reverse engineered from the code django-bootstrap4 generates -->
+      <div class="form-group">
+        <label for="id_website">Website</label>
+        <input type="url" name="website" maxlength="200" class="form-control" placeholder="{% if user_profile.website != '' %} {{user_profile.website }} {%else%}Website{%endif%}" title="" id="id_website" />
+      </div>
+      <div class="form-group">
+        {% if user_profile and user_profile.picture.url != '' %}
+          <img src="{{ user_profile.picture.url }}" alt="{{user_data.username}} picture" class="rounded float-left mx-auto" />
+        {% else %}
+          <span class="fa fa-user fa-5x"></span>
+        {% endif %}
+
+        <label for="id_picture">Picture</label>
+        <div class="row bootstrap4-multi-input">
+          <div class="col-12">
+            <input type="file" name="picture" class="" title="" id="id_picture" />
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <button type="submit" class="btn btn-default fa fa-save"> Update</button>
+  </div>
+{% endblock %}
+

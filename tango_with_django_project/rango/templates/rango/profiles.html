@@ -14,7 +14,11 @@
       <p>
         {% for profile in profiles %}
           <a href="{% url 'rango:profile' profile.user.id %}">
-            <img src="{{ profile.picture.url }}" alt="{{user_data.username}} picture" class="rounded" style="float: top" />
+            {% if profile.picture.url != '' %}
+              <img src="{{ profile.picture.url }}" alt="{{user_data.username}} picture" class="rounded" style="float: top" />
+            {% else %}
+              <span class="fa fa-user fa-5x"></span>
+            {% endif %}
           </a>
           <strong>{{ profile.user.username }}</strong> | {{ profile.user.email }} | {{ profile.website }}
           <br />

@@ -269,3 +269,66 @@ def profiles(request):
     context_dict['profiles'] = profile_list
 
     return render(request, 'rango/profiles.html', context_dict)
+
+@login_required
+def edit_profile(request, user_profile_id):
+
+    try:
+        user = User.objects.get(id=user_profile_id)
+    except User.DoesNotExist:
+        user = None
+
+    context_dict = {}
+    error_dictionaries = {}
+    has_error = False
+
+    if user is None:
+        error_dictionaries['user_lookup_error'] = 'user id {0} could not be found.'.format(str(user_profile_id))
+        print('user id {0} could not be found.'.format(str(user_profile_id)))
+        has_error = True
+
+    if user.id != request.user.id:
+        error_dictionaries['user_mismatch_error'] = 'user id and request user id are different.'
+        print('user id and request user id are different.')
+        has_error = True
+
+    user_profile = None
+
+    try:
+        if has_error is False:
+            user_profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        print('No Profile found for user {0}'.format(str(user.username)))
+        has_error = True
+
+    if request.method == 'POST' and has_error is not True:
+        # In order to update data we already have,
+        #  we need to bind the form object to the instance we retrieved from the back-end!
+        # https://stackoverflow.com/questions/26651688/django-integrity-error-unique-constraint-failed-user-profile-user-id#26652053
+        form = UserProfileForm(request.POST, request.FILES or None, instance=user_profile)
+
+        if form.is_valid():
+            # TODO: this seems to allow for changing user profiles willyneely
+            # More logic required for image handling?
+            # This code updates the image correctly, but does not remove the orphaned one.
+            # Removal is done in the save overload of the model.
+            form.save()
+            # Redirects to the user's profile page
+            return profile(request, user_profile_id)
+        else:
+            error_dictionaries['validation_errors'] = form.errors
+    else:
+        # print('Allowing {0} to edit his/her data.'.format(str(user.username)))
+        form = UserProfileForm()
+
+    if has_error:
+        return HttpResponseRedirect("/")
+
+    # Something might have gone wrong, but at least messages are directed to the correct user!
+    context_dict['form'] = form
+    context_dict['user_profile'] = user_profile
+    context_dict['error_dictionaries'] = error_dictionaries
+    context_dict['has_error'] = has_error
+    context_dict['user_profile_id'] = user_profile_id
+
+    return render(request, 'rango/edit_profile.html', context_dict)

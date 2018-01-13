@@ -15,4 +15,5 @@ urlpatterns = [
     re_path(r'register_profile/$', views.register_profile, name='register_profile'),
     re_path(r'profile/(?P<user_profile_id>\d+)/$', views.profile, name='profile'),
     re_path(r'profiles/$', views.profiles, name='profiles'),
+    re_path(r'profile/(?P<user_profile_id>\d+)/edit_profile/$', views.edit_profile, name='edit_profile'),
 ]
