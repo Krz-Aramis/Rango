@@ -50,7 +50,7 @@
       <ul>
           {% for page in pages %}
           <li>With {{ page.views }} views:
-              <a href="{{ page.url }}">
+              <a href="{% url 'rango:goto' %}?page_id={{ page.id }}">
                   {{ page.title }}
               </a>
           </li>
