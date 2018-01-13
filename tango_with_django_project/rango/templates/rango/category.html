@@ -6,22 +6,29 @@
 
 {% block content %}
     {% if category %}
-    <div class="page-header">
-        <h1>{{ category_name }}</h1>
-    </div>
-    <div>
-        {% if pages %}
-            <ul>
-                {%for page in pages %}
-                    <li>
-                        <a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.title }}
-                        </a> - views = {{ page.views }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>No pages currently in category.</strong>
-        {% endif %}
+      <div class="page-header">
+          <h1>{{ category_name }}</h1>
+      </div>
+      <div>
+
+      {% if pages %}
+        <ul>
+          {%for page in pages %}
+              <li>
+                  <a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.title }}
+                  </a> - views = {{ page.views }}
+              </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <strong>No pages currently in category.</strong>
+      {% endif %}
+
+      {% if user.is_authenticated %}
+        <strong id="like_count">{{ category.likes }}</strong> people like this category.
+        <br />
+        <button id="likes" data-catid="{{category.id}}" type="button" class="btn btn-info fa fa-plus-square"> Like this category!</button>
+      {%endif %}
     {% else %}
         The specified category "{{ category_name }}" does not exist!
     {% endif %}

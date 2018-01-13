@@ -343,3 +343,35 @@ def edit_profile(request, user_profile_id):
     context_dict['user_profile_id'] = user_profile_id
 
     return render(request, 'rango/edit_profile.html', context_dict)
+
+@login_required
+def like_category(request):
+    """
+    This function only returns the number of likes for
+    a given category. 0 might indicate that the category
+    does not exists.
+
+    The result is to be handled in Javascript so that the value
+    may be refreshed without apparent page reload.
+
+    IMPORTANT: Disable script blockers!
+    """
+    category_id = None
+    # Figure out which category has been liked.
+    if request.method == 'GET':
+        # if the category_id keyword present?
+        if 'category_id' in request.GET:
+            category_id = request.GET['category_id']
+
+    likes = 0
+
+    if category_id:
+        category = Category.objects.get(id=category_id)
+        if category:
+            likes = category.likes + 1
+            category.likes = likes
+            category.save()
+
+    response = HttpResponse(likes)
+    return response
+

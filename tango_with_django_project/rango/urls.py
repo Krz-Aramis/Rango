@@ -16,4 +16,5 @@ urlpatterns = [
     re_path(r'profile/(?P<user_profile_id>\d+)/$', views.profile, name='profile'),
     re_path(r'profiles/$', views.profiles, name='profiles'),
     re_path(r'profile/(?P<user_profile_id>\d+)/edit_profile/$', views.edit_profile, name='edit_profile'),
+    re_path(r'like_category/', views.like_category, name='like_category'),
 ]
