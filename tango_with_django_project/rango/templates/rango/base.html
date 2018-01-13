@@ -97,6 +97,17 @@
 
               {% endfor %}
           {% endif %}
+
+          {# Taken from the django-bootstrap4 project #}
+          {% if errors %}
+          <div class="alert alert-danger alert-dismissable alert-link">
+              <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
+              {% for error in errors %}
+                {{ error }} {% if not forloop.last %}<br />{%endif %}
+              {% endfor %}
+          </div>
+          {% endif %}
+
           </section><!-- Error display -->
 
           <footer class="container-fluid w-100 bg-dark">
