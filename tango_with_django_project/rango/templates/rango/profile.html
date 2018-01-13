@@ -21,8 +21,10 @@
       {% endif %}
     <div>
       <p>
-        {% if user_profile_data %}
+        {% if user_profile_data and user_profile_data.picture.url != '' %}
           <img src="{{ user_profile_data.picture.url }}" alt="{{user_data.username}} picture" class="rounded float-left mx-auto" />
+        {% else %}
+          <span class="fa fa-user fa-5x"></span>
         {% endif %}
 
         <strong>Username</strong>: {{ user_data.username }}
@@ -33,6 +35,20 @@
         <strong>Web-site</strong>: {{ user_profile_data.website }}
         <br />
         {% endif %}
+
+        {% if user_data.id == request.user.id %}
+        <br />
+          <a href="{% url 'rango:edit_profile' user_data.id %}" class="btn btn-info btn-lg">
+            <span class="fa fa-pencil"></span> Edit
+          </a>
+          <br />
+          <!-- Keeping this for the records
+          <a href="{% url 'rango:edit_profile' user_data.id %}">
+              <span class="fa fa-pencil"></span>
+            </a>
+          -->
+        {% endif %}
+
       </p>
     {% else %}
     <p>
