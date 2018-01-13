@@ -8,14 +8,21 @@
 
 {% block content %}
     {% if user_data %}
-    <div class="page-header">
-        <h1>Hello {{ user_data.username }},</h1>
-        <h2>Your Rango profile information:</h2>
-    </div>
+      {% if user_data.id == request.user.id %}
+      <div class="page-header">
+          <h1>Hello {{ user_data.username }},</h1>
+          <h2>Your Rango profile information:</h2>
+      </div>
+      {% else %}
+      <div class="page-header">
+        <h1>{{ user_data.username }}</h1>
+        <h2>Rango profile information:</h2>
+      </div>
+      {% endif %}
     <div>
       <p>
         {% if user_profile_data %}
-          <img src="{{ user_profile_data.picture.url }}" alt="{{user_data.username}} picture" style="float: left" />
+          <img src="{{ user_profile_data.picture.url }}" alt="{{user_data.username}} picture" class="rounded float-left mx-auto" />
         {% endif %}
 
         <strong>Username</strong>: {{ user_data.username }}
