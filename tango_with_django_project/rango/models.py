@@ -36,7 +36,27 @@ class UserProfile(models.Model):
 
     # Our additional attributes:
     website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    # The default file is in the root of the 'media' directory
+    picture = models.ImageField(upload_to='profile_images', blank=True, default='/default.jpg')
 
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        """
+        Upon saving the model, this routine compares the old URL path with the new one.
+        If it is different, we delete the old file from the disk.
+
+        Note: when the routine executes the changes have been committed to the db yet.
+        This is why we can compare the two paths.
+        """
+
+        try:
+            # Thank you Stackoverflow
+            this = UserProfile.objects.get(id=self.id)
+            if this.picture.url != self.picture.url:
+                this.picture.delete()
+        except:
+            pass
+
+        super(UserProfile, self).save(*args, **kwargs)
