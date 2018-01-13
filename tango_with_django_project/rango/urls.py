@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'goto/', views.track_url, name='goto'),
     re_path(r'register_profile/$', views.register_profile, name='register_profile'),
     re_path(r'profile/(?P<user_profile_id>\d+)/$', views.profile, name='profile'),
+    re_path(r'profiles/$', views.profiles, name='profiles'),
 ]

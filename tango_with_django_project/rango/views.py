@@ -261,3 +261,11 @@ def profile(request, user_profile_id):
 
     return render(request, 'rango/profile.html', context_dict)
 
+def profiles(request):
+    context_dict = {}
+
+    profile_list = UserProfile.objects.all()
+
+    context_dict['profiles'] = profile_list
+
+    return render(request, 'rango/profiles.html', context_dict)

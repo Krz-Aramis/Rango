@@ -49,6 +49,7 @@
                             <li><a href="{% url 'registration_register' %}">Register Here</a></li>
                             <li><a href="{% url 'auth_login' %}">Login</a></li>
                         {% endif %}
+                            <li><a href="{% url 'rango:profiles' %}">Who uses Rango?</a></li>
                             <li><a href="{% url 'rango:about' %}">About</a></li>
 
               </ul>
@@ -115,6 +116,7 @@
                   {% endif %}
                   {% block myfooter %}
                   {% endblock %}
+                  <li><a href="{% url 'rango:profiles' %}">Who uses Rango?</a></li>
                   <li><a href="{% url 'rango:about' %}">About</a></li>
               </ul>
           </footer>
