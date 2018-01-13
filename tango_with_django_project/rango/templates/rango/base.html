@@ -40,6 +40,9 @@
                     <li><a href="{% url 'rango:index' %}">Home</a></li>
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
+                            {% if 'profile/' not in request.build_absolute_uri %}
+                            <li><a href="{% url 'rango:profile' user.id %}">Your Profile Page</a></li>
+                            {% endif %}
                             <li><a href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
                             <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
                         {% else %}
@@ -50,6 +53,7 @@
 
               </ul>
             </div>
+
           </div>
         </nav><!-- End of Navigation Header -->
 

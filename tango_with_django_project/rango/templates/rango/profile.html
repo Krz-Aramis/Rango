@@ -1,0 +1,36 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% if user_data %}
+{% block title %}{{ user_data.username }}{% endblock %}
+{% endif %}
+
+{% block content %}
+    {% if user_data %}
+    <div class="page-header">
+        <h1>Hello {{ user_data.username }},</h1>
+        <h2>Your Rango profile information:</h2>
+    </div>
+    <div>
+      <p>
+        {% if user_profile_data %}
+          <img src="{{ user_profile_data.picture.url }}" alt="{{user_data.username}} picture" style="float: left" />
+        {% endif %}
+
+        <strong>Username</strong>: {{ user_data.username }}
+        <br />
+        <strong>E-mail</strong>: {{ user_data.email }}
+        <br />
+        {% if user_profile_data %}
+        <strong>Web-site</strong>: {{ user_profile_data.website }}
+        <br />
+        {% endif %}
+      </p>
+    {% else %}
+    <p>
+        No user data specified
+    </p>
+    {% endif %}
+  </div>
+{% endblock %}

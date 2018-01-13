@@ -12,5 +12,6 @@ urlpatterns = [
     re_path(r'category/(?P<category_name_slug>[\w\-]+)/add_page/$', views.add_page, name='add_page'),
     re_path(r'restricted/$', views.restricted, name='restricted'),
     re_path(r'goto/', views.track_url, name='goto'),
-    re_path(r'register_profile/$', views.register_profile, name='register_profile')
+    re_path(r'register_profile/$', views.register_profile, name='register_profile'),
+    re_path(r'profile/(?P<user_profile_id>\d+)/$', views.profile, name='profile'),
 ]

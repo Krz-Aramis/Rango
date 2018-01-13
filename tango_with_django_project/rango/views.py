@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -235,3 +236,28 @@ def register_profile(request):
         context_dict['registered'] = registered
         context_dict['error_dictionaries'] = error_dictionaries
         return render(request, 'registration/profile_registration.html', context_dict)
+
+def profile(request, user_profile_id):
+    context_dict = {}
+    error_dictionaries = {}
+    user = None
+    user_profile = None
+
+    try:
+        user = User.objects.get(id=user_profile_id)
+
+    except User.DoesNotExist:
+        error_dictionaries['user_lookup_error'] = 'No such user with id {0}'.format(str(user_profile_id))
+
+    if user is not None:
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            error_dictionaries['user_profile_lookup_error'] = 'No user profile for user {0}'.format(str(user.username))
+
+    context_dict['user_data'] = user
+    context_dict['user_profile_data'] = user_profile
+    context_dict['error_dictionaries'] = error_dictionaries
+
+    return render(request, 'rango/profile.html', context_dict)
+
