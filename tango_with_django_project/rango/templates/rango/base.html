@@ -68,6 +68,25 @@
                       This variable only exists when visiting the cateogry pages!
                       {% endcomment %}
                       {% get_category_list category %}
+
+                      {# Not pretty but works - Another CSS TODO :'( #}
+                      <ul class="nav nav-list">
+                        <li class="nav-header">Find a Category</li>
+                        <form role="form">
+                          <div class="form-group">
+                            <label></label>
+                            <li>
+                              {% comment %}
+                              We re-use cats.html here that returns anchor tags.
+                              {% endcomment %}
+                              <input class="search-query" type="text" name="suggestion" value="" id="suggestion" />
+                            </li>
+                          </div>
+                        </form>
+                      </ul>
+
+                      <div id="cats">
+                      </div>
                     {% endblock %}
             </div><!-- End of side menu -->
 
