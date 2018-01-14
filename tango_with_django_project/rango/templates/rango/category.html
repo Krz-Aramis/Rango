@@ -16,7 +16,8 @@
           {%for page in pages %}
               <li>
                   <a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.title }}
-                  </a> - views = {{ page.views }}
+                  </a> - views = {{ page.views }}. {% if page.first_visit %}<strong>First Visit</strong>: on {{ page.first_visit }}; {% endif %}
+                  {% if page.last_visit != page.first_visit %}<strong>Last Visit</strong>: on {{ page.last_visit }}; {% endif %}
               </li>
           {% endfor %}
         </ul>

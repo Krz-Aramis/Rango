@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -33,9 +35,47 @@ class Page(models.Model):
     title       = models.CharField(max_length=128)
     url         = models.URLField()
     views       = models.IntegerField(default=0)
+    first_visit = models.DateTimeField(null=True, blank=True)
+    last_visit  = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        """
+        Enforce some sanity in the page model whereby
+        visits cannot be in the future and last visit
+        cannot be before the first visit
+        """
+        time_now = timezone.now()
+
+        if self.first_visit is not None:
+            if (time_now - self.first_visit).seconds < 0:
+                # first visit is in the future! no no
+                self.first_visit = time_now
+
+            # Do not allow changing the first visit once set
+            try:
+                this = Page.objects.get(id=self.id)
+                if this.first_visit is not None:
+                    self.first_visit = this.first_visit
+            except:
+                pass
+
+        if self.last_visit is not None:
+            if (time_now - self.last_visit).seconds < 0:
+                # last visit in the future, no no
+                self.last_visit = time_now
+
+            # Check if first_visit is already set, if not set it now
+            if self.first_visit is None:
+               self.first_visit = self.last_visit
+
+        # last visit is before the first visit, use last visit data
+        if self.last_visit is not None and self.first_visit is not None and self.last_visit < self.first_visit:
+            self.first_visit = self.last_visit
+
+        super(Page, self).save(*args, **kwargs)
 
 class UserProfile(models.Model):
     # Associate this object with the standard User model

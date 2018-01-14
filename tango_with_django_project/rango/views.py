@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.utils import timezone
 
 from rango.models import Category, Page, UserProfile
 from rango.forms import CategoryForm, PageForm, UserProfileForm
@@ -190,6 +191,11 @@ def track_url(request):
                 # increment the number of views on the this page and save this.about
                 views = page.views
                 page.views = views + 1
+
+                # Update the date fields. No need for special logic here the model does the hard word for us
+                page.first_visit = timezone.now()
+                page.last_visit = timezone.now()
+
                 page.save()
                 # Now redirect the user to the requested page
                 return HttpResponseRedirect(page.url)
