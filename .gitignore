@@ -4,3 +4,4 @@ __pycache__
 .markdownlint.json
 *profile_images/
 *.code-workspace
+.coverage
